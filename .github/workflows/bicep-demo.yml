@@ -1,0 +1,30 @@
+name: Bicep-demo
+
+env:
+    AZURE_RESOURCEGROUP_NAME: ToyWebsite
+    ENVIRONMENT: nonprod
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'bicep/actions/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'bicep/actions/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/arm-deploy@v1
+        with:
+          deploymentName: ${{ github.run_number }}
+          resourceGroupName: ${{ env.AZURE_RESOURCEGROUP_NAME }}
+          template: ./bicep/actions/main.bicep
+          parameters: environmentType=${{ env.ENVIRONMENT }}
