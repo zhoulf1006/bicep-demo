@@ -1,7 +1,7 @@
 name: Bicep-demo
 
 env:
-    AZURE_RESOURCEGROUP_NAME: ToyWebsite
+    AZURE_RESOURCEGROUP_NAME: rg-bicep-demo
     ENVIRONMENT: nonprod
 
 on:
